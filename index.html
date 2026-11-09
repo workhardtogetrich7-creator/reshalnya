@@ -46,6 +46,7 @@ body{
 }
 .wrap{max-width:600px;margin:0 auto;padding-left:var(--gut-l);padding-right:var(--gut-r);padding-block:22px 8px}
 .serif{font-family:"Playfair Display",Georgia,"Times New Roman",serif}
+.vec{font-style:italic;font-weight:700;white-space:nowrap}
 h1,h2,h3{margin:0;font-weight:600}
 button{font-family:inherit;cursor:pointer;color:inherit}
 input{font-family:inherit}
@@ -54,7 +55,7 @@ input{font-family:inherit}
 
 /* ---------- header / hero ---------- */
 .eyebrow{color:var(--faint);font-size:13px;font-weight:500;letter-spacing:.02em;margin-bottom:6px}
-.app-title{font-family:"Playfair Display",serif;font-size:40px;line-height:1.02;font-weight:700;letter-spacing:-.01em}
+.app-title{font-family:"Playfair Display",serif;font-size:clamp(30px,8.5vw,40px);line-height:1.04;font-weight:700;letter-spacing:-.01em}
 .app-sub{color:var(--muted);font-size:14.5px;margin-top:8px}
 
 /* ---------- cards ---------- */
@@ -116,7 +117,7 @@ input{font-family:inherit}
 .ans-row input:focus{border-color:var(--gold)}
 .ans-row input.ok{border-color:var(--good)}
 .ans-row input.no{border-color:var(--bad)}
-.btn{flex:0 0 auto;background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#2a1d05;font-weight:700;font-size:15px;border:0;border-radius:12px;padding:0 20px;transition:filter .15s,transform .1s}
+.btn{flex:0 0 auto;background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#2a1d05;font-weight:700;font-size:14.5px;white-space:nowrap;border:0;border-radius:12px;padding:0 16px;min-height:48px;transition:filter .15s,transform .1s}
 .btn:active{transform:scale(.97)}
 .btn:disabled{opacity:.5}
 .btn.ghost{background:none;color:var(--gold-bright);border:1px solid var(--border-2);font-weight:600}
@@ -204,8 +205,8 @@ const DATA = [
       stmt:`Площадь параллелограмма <b>ABCD</b> равна <b>219</b>. Найдите площадь параллелограмма <b>MNKL</b>, вершинами которого являются середины сторон данного параллелограмма.`,
       sol:`<p>Параллелограмм из середин сторон (параллелограмм Вариньона) имеет <b>вдвое меньшую</b> площадь.</p><p class="res">219 : 2 = <b>109,5</b></p>`},
     {n:2,topic:"Векторы · скалярное произведение",ans:"46",img:"v1_t2",
-      stmt:`Найдите скалярное произведение векторов <b>2a⃗</b> и <b>b⃗</b>.`,
-      sol:`<p>С графика: a⃗ = (4; 3), b⃗ = (2; 5).</p><p>a⃗·b⃗ = 4·2 + 3·5 = 8 + 15 = 23.</p><p class="res">2·(a⃗·b⃗) = 2·23 = <b>46</b></p>`},
+      stmt:`Найдите скалярное произведение векторов <b>2<i class="vec">a</i></b> и <b><i class="vec">b</i></b>.`,
+      sol:`<p>С графика: <i class="vec">a</i> = (4; 3), <i class="vec">b</i> = (2; 5).</p><p><i class="vec">a</i>·<i class="vec">b</i> = 4·2 + 3·5 = 8 + 15 = 23.</p><p class="res">2·(<i class="vec">a</i>·<i class="vec">b</i>) = 2·23 = <b>46</b></p>`},
     {n:3,topic:"Стереометрия · призма",ans:"39",
       stmt:`Найдите боковое ребро правильной четырёхугольной призмы, если сторона её основания равна <b>10</b>, а площадь поверхности равна <b>1760</b>.`,
       sol:`<p>Поверхность = 2 квадрата + 4 боковые грани: 2·10² + 4·10·h = 1760.</p><p>200 + 40h = 1760 → 40h = 1560.</p><p class="res">h = <b>39</b></p>`},
@@ -248,8 +249,8 @@ const DATA = [
       stmt:`Площадь параллелограмма <b>ABCD</b> равна <b>394</b>. Найдите площадь параллелограмма <b>MNKL</b>, вершины которого — середины сторон данного.`,
       sol:`<p>Параллелограмм из середин сторон — вдвое меньше по площади.</p><p class="res">394 : 2 = <b>197</b></p>`},
     {n:2,topic:"Векторы · скалярное произведение",ans:"-24",img:"v5_t2",
-      stmt:`Найдите скалярное произведение векторов <b>2a⃗</b> и <b>b⃗</b>.`,
-      sol:`<p>С графика: a⃗ = (4; −4), b⃗ = (2; 5).</p><p>a⃗·b⃗ = 4·2 + (−4)·5 = 8 − 20 = −12.</p><p class="res">2·(−12) = <b>−24</b></p>`},
+      stmt:`Найдите скалярное произведение векторов <b>2<i class="vec">a</i></b> и <b><i class="vec">b</i></b>.`,
+      sol:`<p>С графика: <i class="vec">a</i> = (4; −4), <i class="vec">b</i> = (2; 5).</p><p><i class="vec">a</i>·<i class="vec">b</i> = 4·2 + (−4)·5 = 8 − 20 = −12.</p><p class="res">2·(−12) = <b>−24</b></p>`},
     {n:3,topic:"Стереометрия · призма",ans:"57",
       stmt:`Боковое ребро правильной четырёхугольной призмы, если сторона основания <b>25</b>, а площадь поверхности <b>6950</b>.`,
       sol:`<p>2·25² + 4·25·h = 6950 → 1250 + 100h = 6950.</p><p>100h = 5700.</p><p class="res">h = <b>57</b></p>`},
@@ -292,8 +293,8 @@ const DATA = [
       stmt:`Площадь параллелограмма <b>ABCD</b> равна <b>176</b>. E — середина стороны AD. Найдите площадь треугольника <b>ABE</b>.`,
       sol:`<p>Диагональ BD делит параллелограмм пополам: △ABD = 88.</p><p>E — середина AD, значит △ABE — половина △ABD.</p><p class="res">88 : 2 = <b>44</b></p>`},
     {n:2,topic:"Векторы · косинус угла",ans:"-0.28",
-      stmt:`Даны векторы <b>a⃗(7; 1)</b> и <b>b⃗(−1; −7)</b>. Найдите косинус угла между ними.`,
-      sol:`<p>a⃗·b⃗ = 7·(−1) + 1·(−7) = −14.</p><p>|a⃗| = |b⃗| = √50, произведение длин = 50.</p><p class="res">cos φ = −14 / 50 = <b>−0,28</b></p>`},
+      stmt:`Даны векторы <b><i class="vec">a</i>(7; 1)</b> и <b><i class="vec">b</i>(−1; −7)</b>. Найдите косинус угла между ними.`,
+      sol:`<p><i class="vec">a</i>·<i class="vec">b</i> = 7·(−1) + 1·(−7) = −14.</p><p>|<i class="vec">a</i>| = |<i class="vec">b</i>| = √50, произведение длин = 50.</p><p class="res">cos φ = −14 / 50 = <b>−0,28</b></p>`},
     {n:3,topic:"Стереометрия · параллелепипед",ans:"1.5",
       stmt:`Одна грань прямоугольного параллелепипеда — квадрат (сторона a). Диагональ параллелепипеда равна <b>2</b> и образует с плоскостью этой грани угол <b>30°</b>. Найдите объём.`,
       sol:`<p>Высота c = 2·sin30° = 1. Диагональ квадрата a√2 = 2·cos30° = √3 ⇒ a² = 1,5.</p><p>V = a²·c = 1,5·1.</p><p class="res">V = <b>1,5</b></p>`},
