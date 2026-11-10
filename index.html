@@ -353,8 +353,8 @@ function isCorrect(user,ans){
   const u=norm(user), a=norm(ans);
   if(u==='') return false;
   if(u===a) return true;
-  const fu=parseFloat(u), fa=parseFloat(a);
-  if(!isNaN(fu)&&!isNaN(fa)) return Math.abs(fu-fa)<1e-9;
+  const numRe=/^-?(\d+\.?\d*|\.\d+)$/;      // whole string must be a clean number
+  if(numRe.test(u)&&numRe.test(a)) return Math.abs(parseFloat(u)-parseFloat(a))<1e-9;
   return false;
 }
 function variantStats(v){
