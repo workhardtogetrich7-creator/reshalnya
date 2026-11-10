@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap">
 <style>
 /* Layout: mobile-first single column, warm dark surfaces, gold accent, serif display + sans body; bottom tab bar like a companion reading app. Committed dark theme. */
 :root{
@@ -27,6 +27,7 @@
   --radius:18px;
   --radius-sm:12px;
   --nav-h:64px;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   color-scheme:light;
   --gut-l:max(16px, env(safe-area-inset-left,0px));
   --gut-r:max(16px, env(safe-area-inset-right,0px));
@@ -62,7 +63,7 @@ input{font-family:inherit}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
 .overall{display:flex;align-items:center;gap:20px;padding:20px;margin-top:22px}
 .ring{flex:0 0 auto}
-.ring .lbl{font-family:"Playfair Display",serif;font-weight:700;font-size:26px;fill:var(--text)}
+.ring .lbl{font-family:var(--mono);font-weight:600;font-size:19px;letter-spacing:-.04em;fill:var(--text)}
 .ring .lbl2{fill:var(--muted);font-size:9.5px;font-weight:600;font-family:Inter,sans-serif;letter-spacing:.08em}
 .overall-txt h2{font-size:17px}
 .overall-txt p{margin:6px 0 0;color:var(--muted);font-size:13.5px;line-height:1.45}
@@ -77,7 +78,7 @@ input{font-family:inherit}
 .vcard:hover{border-color:var(--border-2);background:var(--surface-2)}
 .vcard:active{transform:scale(.993)}
 .vcard:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.vnum{flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--surface-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-size:20px;font-weight:700;color:var(--gold-bright)}
+.vnum{flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:var(--surface-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:17px;font-weight:600;letter-spacing:-.02em;color:var(--gold-bright)}
 .vbody{flex:1 1 auto;min-width:0}
 .vbody .t{font-size:16px;font-weight:600}
 .vbody .s{color:var(--muted);font-size:13px;margin-top:3px}
@@ -90,7 +91,7 @@ input{font-family:inherit}
 .back{flex:0 0 auto;width:40px;height:40px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
 .back:active{transform:scale(.94)}
 .topbar .th{flex:1 1 auto;min-width:0}
-.topbar .th .k{font-family:"Playfair Display",serif;font-size:24px;font-weight:700}
+.topbar .th .k{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:-.02em}
 .topbar .th .m{color:var(--muted);font-size:13px;margin-top:1px}
 .solve-bar{height:6px;border-radius:4px;background:var(--surface-2);overflow:hidden;margin:14px 0 20px}
 .solve-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-bright));transition:width .4s}
@@ -100,7 +101,7 @@ input{font-family:inherit}
 .task.open{border-color:var(--border-2)}
 .task-h{display:flex;align-items:center;gap:14px;padding:15px 16px;width:100%;text-align:left;background:none;border:0}
 .task-h:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
-.tn{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--text)}
+.tn{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:-.02em;color:var(--text)}
 .task-h .topic{flex:1 1 auto;min-width:0;font-size:14.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .status{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border-2)}
 .status.ok{background:var(--good-bg);border-color:transparent;color:var(--good)}
@@ -142,7 +143,7 @@ input{font-family:inherit}
 /* ---------- stats ---------- */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-top:4px}
 .stat-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 12px;text-align:center}
-.stat-tile .v{font-family:"Playfair Display",serif;font-size:30px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.stat-tile .v{font-family:var(--mono);font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
 .stat-tile .v.gold{color:var(--gold-bright)}
 .stat-tile .l{color:var(--muted);font-size:12px;margin-top:7px}
 .per-v{display:flex;flex-direction:column;gap:14px;margin-top:4px}
