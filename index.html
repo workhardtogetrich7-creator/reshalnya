@@ -175,6 +175,11 @@ input{font-family:inherit}
 .confirm-row .yes{background:var(--bad);color:#fff;border:0}
 .confirm-row .no{background:var(--surface-2);color:var(--text);border:1px solid var(--border-2)}
 .about-link{color:var(--gold-bright);text-decoration:none;font-weight:600}
+.remind-row{display:flex;gap:10px;margin-top:14px}
+.remind-row input[type=time]{flex:0 0 auto;background:var(--surface-2);border:1px solid var(--border-2);color:var(--text);font-family:var(--mono);font-size:16px;font-weight:600;padding:12px 14px;border-radius:12px;min-height:48px}
+.remind-row .btn{flex:1 1 auto;justify-content:center}
+.remind-ok{margin-top:12px;background:var(--good-bg);color:var(--good);font-weight:600;font-size:13.5px;padding:10px 13px;border-radius:11px;line-height:1.45}
+.gcal-link{display:inline-block;margin-top:12px;font-size:13.5px;color:var(--gold-bright);text-decoration:none;font-weight:600}
 
 /* ---------- bottom nav ---------- */
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(250,245,237,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
@@ -542,6 +547,16 @@ function renderMore(){
       <p>«Решальня» — тренажёр по профильной математике ЕГЭ. Сейчас доступно ${DATA.length} варианта (1, 5, 6) из сборника Ященко: условия, мгновенная проверка ответа и разбор решения по шагам. Прогресс хранится в этом браузере.</p>
     </div>
     <div class="card more-card">
+      <h3>Ежедневное напоминание</h3>
+      <p>Добавь в календарь телефона — он будет каждый день в выбранное время напоминать прорешать пару заданий.</p>
+      <div class="remind-row">
+        <input type="time" id="rem-time" value="18:00" aria-label="Время напоминания">
+        <button class="btn" id="rem-ics">Добавить в календарь</button>
+      </div>
+      <a class="gcal-link" id="rem-gcal" href="#" target="_blank" rel="noopener">Через Google Календарь →</a>
+      <div id="rem-note"></div>
+    </div>
+    <div class="card more-card">
       <h3>Сбросить прогресс</h3>
       <p>Удалит все введённые ответы и отметки. Отменить нельзя.</p>
       <div id="reset-area"><button class="danger" id="reset-btn">Сбросить прогресс</button></div>
@@ -559,6 +574,64 @@ function bindMore(){
        <div class="confirm-row"><button class="yes" id="yes">Да, сбросить</button><button class="no" id="no">Отмена</button></div>`;
     document.getElementById('yes').onclick=()=>{store={};save();render();};
     document.getElementById('no').onclick=()=>render();
+  };
+  bindReminder();
+}
+
+/* ---------------- ЕЖЕДНЕВНОЕ НАПОМИНАНИЕ ---------------- */
+const APP_URL='https://workhardtogetrich7-creator.github.io/reshalnya/';
+function p2(n){return String(n).padStart(2,'0');}
+function buildICS(hhmm){
+  const parts=(hhmm||'18:00').split(':'); const h=+parts[0]||18, m=+parts[1]||0;
+  const now=new Date();
+  const d=new Date(now.getFullYear(),now.getMonth(),now.getDate(),h,m,0);
+  if(d<=now) d.setDate(d.getDate()+1);               // первое срабатывание — ближайшее
+  const local=`${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}T${p2(h)}${p2(m)}00`; // плавающее локальное время
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const uid='reshalnya-'+Date.now()+'@github.io';
+  return [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Reshalnya//EGE//RU','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+    'BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+stamp,
+    'DTSTART:'+local,'DURATION:PT15M','RRULE:FREQ=DAILY',
+    'SUMMARY:Решаем математику — Решальня',
+    'DESCRIPTION:Прорешай пару заданий ЕГЭ. Открыть: '+APP_URL,
+    'URL:'+APP_URL,
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Пора решать варианты!','TRIGGER:PT0S','END:VALARM',
+    'END:VEVENT','END:VCALENDAR'
+  ].join('\r\n');
+}
+function gcalLink(hhmm){
+  const parts=(hhmm||'18:00').split(':'); const h=+parts[0]||18, m=+parts[1]||0;
+  const now=new Date();
+  const d=new Date(now.getFullYear(),now.getMonth(),now.getDate(),h,m,0);
+  if(d<=now) d.setDate(d.getDate()+1);
+  const s=`${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}T${p2(h)}${p2(m)}00`;
+  const e2=new Date(d.getTime()+15*60000);
+  const e=`${e2.getFullYear()}${p2(e2.getMonth()+1)}${p2(e2.getDate())}T${p2(e2.getHours())}${p2(e2.getMinutes())}00`;
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    +'&text='+encodeURIComponent('Решаем математику — Решальня')
+    +'&dates='+s+'/'+e
+    +'&recur='+encodeURIComponent('RRULE:FREQ=DAILY')
+    +'&details='+encodeURIComponent('Прорешай пару заданий ЕГЭ: '+APP_URL)
+    +'&ctz=Europe/Moscow';
+}
+function bindReminder(){
+  const t=document.getElementById('rem-time');
+  const ics=document.getElementById('rem-ics');
+  const g=document.getElementById('rem-gcal');
+  const note=document.getElementById('rem-note');
+  if(!t||!ics) return;
+  const syncG=()=>{ if(g) g.href=gcalLink(t.value); };
+  syncG(); t.addEventListener('change',syncG);
+  ics.onclick=()=>{
+    const data=buildICS(t.value);
+    const blob=new Blob([data],{type:'text/calendar;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download='reshalnya-reminder.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    if(note) note.innerHTML=`<div class="remind-ok">Файл скачан. Открой его — календарь предложит добавить ежедневное напоминание на ${(t.value||'18:00')}. На айфоне жми «Добавить», на Android откроется в Google Календаре.</div>`;
   };
 }
 
